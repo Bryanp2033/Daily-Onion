@@ -1,0 +1,43 @@
+.navbar{
+    background-color: #4C4D4D;
+    padding: 15px;
+}
+
+.navbar-brand{
+    font-size: 35px;
+    color: white !important;
+}
+
+.navbar-brand:hover{
+    color: green !important;
+}
+
+.nav-item{
+    font-size: 25px;
+    color: white !important;
+}
+
+.nav-item:hover{
+    color: lightgreen !important;
+}
+
+.jumbotron{
+    background-image: url("https://lh3.googleusercontent.com/d9fnl-1szEaF6pHfJxi5UB7KhhxEDv44Fz7PKLrgj9EcDu-3u2CwhpNGRlJvsIsy_w=h1264");
+    background-size: cover;
+    height: 400px;
+}
+
+.p-lead{
+    font-family: "Times New Roman", Times, serif !important;
+}
+
+p{
+    font-size: 25px;
+}
+
+#jumbo-text{
+    background-color: white;
+    padding: 20px;
+    width: 500px;
+    border-radius: 10px;
+}
