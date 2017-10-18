@@ -6,11 +6,6 @@ const exphbrs = require('express-handlebars');
 var app = express();
 var PORT = process.env.PORT || 8000;
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/newspaper', {
-    useMongoClient: true
-});
-
 // Use Middleware
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
