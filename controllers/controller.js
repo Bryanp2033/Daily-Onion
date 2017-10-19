@@ -10,7 +10,7 @@ mongoose.connect('mongodb://localhost/newspaper', {
 });
 mongoose.Promise = Promise;
 
-db = mongoose.connection;
+var db = mongoose.connection;
 
 db.on("error", function(error){
     console.log(error)
@@ -20,7 +20,18 @@ var Post = require('../models/articles.js');
 
 //Home Page
 router.get("/", function(req, res){
-    res.render("index", {layout: 'main'})
+
+    Post.find({}, function(err, data){
+
+        if(err) throw err
+
+        var hbsObject = {
+            articles: data
+        };
+
+        res.render("index", hbsObject )
+    });
+
     console.log("Working Home Page");
 });
 
@@ -32,7 +43,7 @@ router.get("/saved", function(req, res){
 
 router.get("/scrape", function(req, res){
 
-    request("http://www.clickhole.com/features/news/", function(err, response, html, cb){
+    request("http://www.clickhole.com/features/news/", function(err, response, html){
         
         if(err) throw err;
 
@@ -54,19 +65,33 @@ router.get("/scrape", function(req, res){
 
             result.date = $(this).find("div.meta").find("span").text().trim();
 
-            
-            // var article = new Post(result);
+            // TODO make sure to only delete article:save = false
+            Post.remove({}, function(err){
+                if(err){
+                    console.log("YOU GOT AN ERROR" + err)
+                }
+            });
 
-            // article.save(function(err, data){
+            var article = new Post(result);
+
+            article.save(function(err, data){
                 
-            //     //if(err) throw err;                
-            //         console.log(data);
+                if(err){
+                    console.log("YOU GOT AN ERROR: " + err)
+                }
                 
-            // });
+                else{
+                    // console.log(data);
+                }
+            });
         });
-
     });
-        res.redirect("/");
+
+    Post.count({}, function(err, data){
+        console.log(data);
+    });
+
+    res.redirect("/");
 })
 
 module.exports = router;

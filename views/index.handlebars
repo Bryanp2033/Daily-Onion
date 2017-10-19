@@ -21,10 +21,31 @@
         <p class="p-lead text-center">This is your number one source to get your daily fix on the latest Onion Articles</p>
         <p class="lead text-center">
             <form action="/scrape" method="GET">
-            <a class="btn btn-success btn-lg" href="/scrape" role="button">Scan New Articles</a>
+            <a class="btn btn-success btn-lg" href="/scrape" role="button" id="scan">Scan New Articles</a>
             </form>
         </p>
     </div>
 </div>
 
-<div id="results"></div>
+<div id="results">
+
+    {{#each articles}}
+        <div class="container" id="article">
+            <a href={{link}} target="_blank"><h3>{{title}}</h3>
+            <form action="/" method="get">
+            <button class="btn btn-success" type="submit">Save Article</button>
+            </form>
+            </a>
+            <span>{{date}}</span>
+        </div>
+    {{/each}}
+</div>
+
+<script>
+
+//$("#scan").on("click", function(event){
+    //event.preventDefault();
+
+    //$("#results").empty();
+//})
+</script>

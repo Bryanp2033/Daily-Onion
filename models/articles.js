@@ -1,13 +1,22 @@
 
 var mongoose = require('mongoose')
-,Schema = mongoose.Schema
-,ObjectId = Schema.ObjectId;
+
+Schema = mongoose.Schema;
 
 var postSchema = new Schema({
- _id: ObjectId,
- title: String,
- link: String,
- date: String
+ title:{
+     type: String,
+     required: true
+ },
+ link: {
+     type: String,
+     required: true
+ },
+ date: {
+     type: String,
+     required: true
+ }
+
 });
 
 var Post = mongoose.model('Post', postSchema);
