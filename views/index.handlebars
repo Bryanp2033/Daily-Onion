@@ -30,10 +30,10 @@
 <div id="results">
 
     {{#each articles}}
-        <div class="container" id="article">
+        <div class="container" id="article" >
             <a href={{link}} target="_blank"><h3>{{title}}</h3>
-            <form action="/" method="get">
-            <button class="btn btn-success" type="submit">Save Article</button>
+            <form action="/save" method="post">
+            <button class="btn btn-success" type="submit" data-id={{_id}}>Save Article</button>
             </form>
             </a>
             <span>{{date}}</span>

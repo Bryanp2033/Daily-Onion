@@ -94,4 +94,10 @@ router.get("/scrape", function(req, res){
     res.redirect("/");
 })
 
+router.post("/save", function(req, res){
+
+    
+    res.redirect("/")
+})
+
 module.exports = router;
