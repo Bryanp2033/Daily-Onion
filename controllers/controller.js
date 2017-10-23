@@ -77,7 +77,6 @@ router.get("/scrape", function(req, res){
 
             result.date = $(this).find("div.meta").find("span").text().trim();
 
-            // TODO make sure to only delete article:save = false
             Post.remove({"saved": false}, function(err){
                 if(err){
                     console.log("YOU GOT AN ERROR" + err)
@@ -99,7 +98,7 @@ router.get("/scrape", function(req, res){
         });
     });
 
-    Post.count({}, function(err, data){
+    Post.count({"saved": false}, function(err, data){
         console.log(data);
     });
 

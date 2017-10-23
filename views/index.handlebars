@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <form action="" method="GET">
-        <a class="navbar-brand" href="#">Daily Onion</a>
+        <a class="navbar-brand" href="/">Daily Onion</a>
     </form>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
         <h1 class="display-3 text-center jumbo-header">Daily Onion</h1>
         <p class="p-lead text-center">This is your number one source to get your daily fix on the latest Onion Articles</p>
         <p class="lead text-center">
-            <form action="/scrape" method="GET">
+            <form action="/scrape" method="GET" id="scrape-button">
             <a class="btn btn-success btn-lg" href="/scrape" role="button" id="scan">Scan New Articles</a>
             </form>
         </p>
@@ -30,10 +30,12 @@
 <div id="results">
 
     {{#each articles}}
-        <div class="container" id="article" data-id={{_id}} >
-            <a href={{link}} target="_blank"><h3>{{title}}</h3></a>
-            <button class="btn btn-success" id="articleBtn" type="submit">Save Article</button>
-            <span>{{date}}</span>
+        <div class="article-container" id="article" data-id={{_id}} >
+            <a href={{link}} target="_blank" ><h3 class="article-text">{{title}}</h3></a>
+            <span class="article-date">{{date}}</span>
+            <div class="article-footer">
+                <button class="btn btn-success" id="articleBtn" type="submit">Save Article</button>
+            </div>
         </div>
     {{/each}}
 </div>

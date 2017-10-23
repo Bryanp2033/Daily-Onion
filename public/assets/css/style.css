@@ -1,5 +1,5 @@
 .navbar{
-    background-color: #4C4D4D;
+    background-color: #5F5F5F;
     padding: 15px;
 }
 
@@ -43,3 +43,39 @@ p{
     border-radius: 10px;
     margin-top: 200px;
 }
+
+#scrape-button{
+    margin-left: 130px;
+}
+
+.article-container{
+    border: 2px solid black;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.article-container a{
+    color: black;
+}
+
+.article-container a:hover{
+    color: green;
+}
+
+
+.article-text{
+    padding: 20px 20px 0px 20px;
+}
+
+.article-date{
+  margin-left: 20px;
+}
+
+.article-footer{
+    background-color: lightblue;
+    padding: 20px;
+    margin-top: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px; 
+}
+
