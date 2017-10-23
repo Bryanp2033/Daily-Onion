@@ -21,15 +21,15 @@ var Post = require('../models/articles.js');
 //Home Page
 router.get("/", function(req, res){
 
-    Post.find({}, function(err, data){
+    Post.find({"saved": false}, function(err, data){
 
         if(err) throw err
 
         var hbsObject = {
             articles: data
         };
-
-        res.render("index", hbsObject )
+        
+        res.render("index", hbsObject );
     });
 
     console.log("Working Home Page");
@@ -37,10 +37,22 @@ router.get("/", function(req, res){
 
 //Saved Page
 router.get("/saved", function(req, res){
-    res.render("saved", {layout: 'main'});
+
+    Post.find({"saved": true}, function(err, data){
+        
+                if(err) throw err
+        
+                var hbsObject = {
+                    saved: data
+                };
+                
+                res.render("saved", hbsObject );
+            });
     console.log("Working Search Page")
 });
 
+
+// Scrape Button
 router.get("/scrape", function(req, res){
 
     request("http://www.clickhole.com/features/news/", function(err, response, html){
@@ -66,7 +78,7 @@ router.get("/scrape", function(req, res){
             result.date = $(this).find("div.meta").find("span").text().trim();
 
             // TODO make sure to only delete article:save = false
-            Post.remove({}, function(err){
+            Post.remove({"saved": false}, function(err){
                 if(err){
                     console.log("YOU GOT AN ERROR" + err)
                 }
@@ -91,13 +103,39 @@ router.get("/scrape", function(req, res){
         console.log(data);
     });
 
-    res.redirect("/");
+    res.redirect("/")
 })
 
-router.post("/save", function(req, res){
+// Save Button
+router.post("/save/:id", function(req, res){
 
-    
-    res.redirect("/")
+    var id = req.body.id
+
+   Post.update({
+       "_id": id
+    },{
+        $set: {
+            "saved": true
+        }
+    },
+    function(err,data){
+        if(err){console.log("ERROR HERE" + err)}
+
+        
+    });
+    res.render('index')
+});
+
+router.post("/delete/:id", function(req, res){
+
+    var id = req.body.id
+
+    Post.remove({"_id": id}, function(err, data){
+        if(err){console.log("ERROR HERE" + err)}
+
+        console.log(data);
+    });
+    res.render('saved')
 })
 
 module.exports = router;

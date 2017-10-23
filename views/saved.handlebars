@@ -19,3 +19,35 @@
 
 <div class="jumbotron">
 </div>
+
+<div id="saved">
+
+    {{#each saved}}
+        <div class="container" id="saved-article" data-id={{_id}} >
+            <a href={{link}} target="_blank"><h3>{{title}}</h3></a>
+            <button class="btn btn-danger" id="articleBtn" type="submit">Delete</button>
+            <span>{{date}}</span>
+        </div>
+    {{/each}}
+</div>
+
+<script type="text/javascript">
+
+$(document).on("click", "#saved-article", function(){
+
+    var Articleid = $(this).attr("data-id");
+
+    console.log(Articleid)
+
+    $.ajax({
+        method: "POST",
+        url: "/delete/" + Articleid,
+        data: {
+            id: Articleid
+        }
+    }).done(function(data) {
+        location.reload();
+    });
+})
+
+</script>
