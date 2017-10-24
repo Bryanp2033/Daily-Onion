@@ -17,6 +17,7 @@ db.on("error", function(error){
 })
 
 var Post = require('../models/articles.js');
+var Note = require('../models/Note.js');
 
 //Home Page
 router.get("/", function(req, res){
@@ -125,6 +126,7 @@ router.post("/save/:id", function(req, res){
     res.render('index')
 });
 
+// Delete Button
 router.post("/delete/:id", function(req, res){
 
     var id = req.body.id
@@ -135,6 +137,43 @@ router.post("/delete/:id", function(req, res){
         console.log(data);
     });
     res.render('saved')
+});
+
+// Get article's note
+router.get("/articles/:id", function(req, res){
+
+    var id = req.params.id
+    
+
+    Post
+        .findOne({"_id": id})
+        .populate("note")
+        .then(function(data){
+            res.json(data)
+        })
+        .catch(function(err){
+            res.json(err);
+        })
+})
+
+// Write a note Button
+router.post("/articles/:id", function(req, res){
+console.log(req.params.id)
+// db.posts.findOneAndUpdate({"_id" : "59eed0a9651c0c75755ca96e"}, {"note": "59eedabd06a94b792ad9b484" }, {new: true} )
+
+    Note
+      .create(req.body)
+      .then(function(dbnote){
+          console.log(dbnote)
+          return Post.findOneAndUpdate({"_id": req.params.id}, {"note": dbnote._id}, {"new": true});
+      })
+      .then(function(data){
+          console.log(data)
+          res.json(data)
+      })
+      .catch(function(err){
+          res.json(err)
+      })
 })
 
 module.exports = router;

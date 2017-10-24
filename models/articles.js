@@ -20,8 +20,11 @@ var postSchema = new Schema({
      type: Boolean,
      default: false,
      required: true
- }
-
+ },
+ note: {
+    type: Schema.Types.ObjectId,
+    ref: "Note"
+  }
 });
 
 var Post = mongoose.model('Post', postSchema);
