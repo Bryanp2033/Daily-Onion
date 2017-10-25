@@ -4,6 +4,7 @@ var router = express.Router();
 var cheerio = require("cheerio");
 var request = require("request");
 
+// mongoose package and connection
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/newspaper', {
     useMongoClient: true
@@ -12,11 +13,14 @@ mongoose.Promise = Promise;
 
 var db = mongoose.connection;
 
+// console logs any error message
 db.on("error", function(error){
     console.log(error)
 })
 
+// using the mongodb models
 var Post = require('../models/articles.js');
+var Note = require('../models/Note.js');
 
 //Home Page
 router.get("/", function(req, res){
@@ -105,6 +109,7 @@ router.get("/scrape", function(req, res){
     res.redirect("/")
 })
 
+
 // Save Button
 router.post("/save/:id", function(req, res){
 
@@ -125,6 +130,7 @@ router.post("/save/:id", function(req, res){
     res.render('index')
 });
 
+// Delete Article Button
 router.post("/delete/:id", function(req, res){
 
     var id = req.body.id
@@ -135,6 +141,42 @@ router.post("/delete/:id", function(req, res){
         console.log(data);
     });
     res.render('saved')
+});
+
+// Get article's note
+router.get("/articles/:id", function(req, res){
+
+    var id = req.params.id
+    
+
+    Post
+        .findOne({"_id": id})
+        .populate("note")
+        .then(function(data){
+            res.json(data)
+        })
+        .catch(function(err){
+            res.json(err);
+        })
+})
+
+// Write a note Button
+router.post("/articles/:id", function(req, res){
+console.log(req.params.id)
+
+    Note
+      .create(req.body)
+      .then(function(dbnote){
+          console.log(dbnote)
+          return Post.findOneAndUpdate({"_id": req.params.id}, {"note": dbnote._id}, {"new": true});
+      })
+      .then(function(data){
+          console.log(data)
+          res.json(data)
+      })
+      .catch(function(err){
+          res.json(err)
+      })
 })
 
 module.exports = router;

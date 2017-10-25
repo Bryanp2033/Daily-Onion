@@ -1,3 +1,4 @@
+{{!-- Nav Bar --}}
 <nav class="navbar navbar-expand-lg navbar-light">
     <form action="" method="GET">
         <a class="navbar-brand" href="/saved">Saved Articles</a>
@@ -20,36 +21,46 @@
 <div class="jumbotron">
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="NoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title"></h5>
+      </div>
+     <div class="modal-body" id="modal-results">
+        <h4>Note Title:</h4>
+        <h3 id="modal-note-title"></h3>
+        <h4>Note Body:</h4>
+        <p id="modal-note-body"></p>
+      </div>
+      <div class="modal-body" id="modal-form">
+        <form>
+            <div class="form-group">
+            <input id='titleinput' name='title' placeholder="Enter Note Title">
+            <textarea class="form-control" rows="3" id='bodyinput' name='body' placeholder="Enter Note Here"></textarea>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
+            <button type="button" class="btn btn-primary" id="savenote" data-dismiss="modal">Save Note</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Displays Saved Articles --}}
 <div id="saved">
 
     {{#each saved}}
-        <div class="article-container" id="saved-article" data-id={{_id}} >
+        <div class="article-container" id="saved-article" >
             <a href={{link}} target="_blank"><h3 class="article-text">{{title}}</h3></a>
             <span class="article-date">{{date}}</span>
             <div class="article-footer">
-                <button class="btn btn-danger" id="articleBtn" type="submit">Delete</button>
+                <button class="btn btn-danger" id="articleBtn" type="submit" data-id={{_id}}>Delete</button>
+                <button class="btn btn-info" id="articleNoteBtn" type="submit" data-id={{_id}} data-toggle="modal" data-target="#NoteModal">Write a note</button>
             </div>
         </div>
     {{/each}}
 </div>
-
-<script type="text/javascript">
-
-$(document).on("click", "#saved-article", function(){
-
-    var Articleid = $(this).attr("data-id");
-
-    console.log(Articleid)
-
-    $.ajax({
-        method: "POST",
-        url: "/delete/" + Articleid,
-        data: {
-            id: Articleid
-        }
-    }).done(function(data) {
-        location.reload();
-    });
-})
-
-</script>

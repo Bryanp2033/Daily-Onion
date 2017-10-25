@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
 
 Schema = mongoose.Schema;
 
+// Post model
 var postSchema = new Schema({
  title:{
      type: String,
@@ -20,8 +21,12 @@ var postSchema = new Schema({
      type: Boolean,
      default: false,
      required: true
- }
-
+ },
+ // has many notes
+ note: {
+    type: Schema.Types.ObjectId,
+    ref: "Note"
+  }
 });
 
 var Post = mongoose.model('Post', postSchema);
