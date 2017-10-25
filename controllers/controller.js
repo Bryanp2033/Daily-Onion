@@ -4,6 +4,7 @@ var router = express.Router();
 var cheerio = require("cheerio");
 var request = require("request");
 
+// mongoose package and connection
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/newspaper', {
     useMongoClient: true
@@ -12,10 +13,12 @@ mongoose.Promise = Promise;
 
 var db = mongoose.connection;
 
+// console logs any error message
 db.on("error", function(error){
     console.log(error)
 })
 
+// using the mongodb models
 var Post = require('../models/articles.js');
 var Note = require('../models/Note.js');
 
@@ -106,6 +109,7 @@ router.get("/scrape", function(req, res){
     res.redirect("/")
 })
 
+
 // Save Button
 router.post("/save/:id", function(req, res){
 
@@ -126,7 +130,7 @@ router.post("/save/:id", function(req, res){
     res.render('index')
 });
 
-// Delete Button
+// Delete Article Button
 router.post("/delete/:id", function(req, res){
 
     var id = req.body.id
@@ -159,7 +163,6 @@ router.get("/articles/:id", function(req, res){
 // Write a note Button
 router.post("/articles/:id", function(req, res){
 console.log(req.params.id)
-// db.posts.findOneAndUpdate({"_id" : "59eed0a9651c0c75755ca96e"}, {"note": "59eedabd06a94b792ad9b484" }, {new: true} )
 
     Note
       .create(req.body)

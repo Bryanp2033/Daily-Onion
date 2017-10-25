@@ -1,3 +1,4 @@
+/* NavBar */
 .navbar{
     background-color: #5F5F5F;
     padding: 15px;
@@ -21,6 +22,7 @@
     color: lightgreen !important;
 }
 
+/* Jumbotron */
 .jumbotron{
     background-image: url("https://lh3.googleusercontent.com/d9fnl-1szEaF6pHfJxi5UB7KhhxEDv44Fz7PKLrgj9EcDu-3u2CwhpNGRlJvsIsy_w=h1264");
     background-size: cover;
@@ -28,6 +30,7 @@
     
 }
 
+/* Container inside the jumbotron */
 .p-lead{
     font-family: "Times New Roman", Times, serif !important;
 }
@@ -48,6 +51,7 @@ p{
     margin-left: 130px;
 }
 
+/* Each individual article entry */
 .article-container{
     border: 2px solid black;
     margin: 20px;

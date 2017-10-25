@@ -1,3 +1,4 @@
+{{!-- Nav Bar --}}
 <nav class="navbar navbar-expand-lg navbar-light">
     <form action="" method="GET">
         <a class="navbar-brand" href="/saved">Saved Articles</a>
@@ -49,6 +50,7 @@
   </div>
 </div>
 
+{{!-- Displays Saved Articles --}}
 <div id="saved">
 
     {{#each saved}}
@@ -62,91 +64,3 @@
         </div>
     {{/each}}
 </div>
-
-<script type="text/javascript">
-
-$(document).on("click", "#articleBtn", function(){
-
-    var Articleid = $(this).attr("data-id");
-
-    console.log(Articleid)
-
-    $.ajax({
-        method: "POST",
-        url: "/delete/" + Articleid,
-        data: {
-            id: Articleid
-        }
-    }).done(function(data) {
-        location.reload();
-    });
-})
-
-
-$(document).on("click", "#articleNoteBtn", function(){
-
-    var Articleid = $(this).attr("data-id");
-    $("#notes").empty()
-
-        $.ajax({
-        method: "GET",
-        url: "/articles/" + Articleid,
-        data: {
-            id: Articleid
-        }
-    }).done(function(data) {
-      console.log(data.note)
-      console.log(data.note.title)
-      console.log(data.note.body)
-
-      $("#modal-title").text(data.title)
-      $("#savenote").attr("data-id", data._id)
-
-
-      if (data.note) {
-        $("#modal-note-title").css("font-size", 25)
-        $("#modal-note-title").text(data.note.title)
-        $("#modal-note-body").css("font-size", 20)
-        $("#modal-note-body").text(data.note.body)
-      }
-      // TODO  also display this if data.note is an empty string
-      else if(!data.note){
-          console.log("note is not here")
-          $("#modal-note-title").css("font-size", 15)
-          $("#modal-note-title").text("No Title Found...")
-          $("#modal-note-body").css("font-size", 15)
-          $("#modal-note-body").text("No Note Body Found...")
-      }
-    });
-})
-
-$(document).on("click", "#savenote", function(){
-    var thisId = $(this).attr("data-id")
-    console.log(thisId)
-
-    $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      // Value taken from title input
-      title: $("#titleinput").val(),
-      // Value taken from note textarea
-      body: $("#bodyinput").val()
-    }
-  })
-    // With that done
-    .done(function(data) {
-      // Log the response
-      console.log(data);
-      // Empty the notes section
-     $("#notes").empty()
-    });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
-
-});
-
-
-</script>

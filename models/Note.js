@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 
+// Note model
 var NoteSchema = new Schema({
  
   title: String,
