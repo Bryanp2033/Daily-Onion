@@ -20,6 +20,35 @@
 <div class="jumbotron">
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="NoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title"></h5>
+      </div>
+     <div class="modal-body" id="modal-results">
+        <h4>Note Title:</h4>
+        <h3 id="modal-note-title"></h3>
+        <h4>Note Body:</h4>
+        <p id="modal-note-body"></p>
+      </div>
+      <div class="modal-body" id="modal-form">
+        <form>
+            <div class="form-group">
+            <input id='titleinput' name='title' placeholder="Enter Note Title">
+            <textarea class="form-control" rows="3" id='bodyinput' name='body' placeholder="Enter Note Here"></textarea>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">Close</button>
+            <button type="button" class="btn btn-primary" id="savenote" data-dismiss="modal">Save Note</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="saved">
 
     {{#each saved}}
@@ -28,12 +57,10 @@
             <span class="article-date">{{date}}</span>
             <div class="article-footer">
                 <button class="btn btn-danger" id="articleBtn" type="submit" data-id={{_id}}>Delete</button>
-                <button class="btn btn-info" id="articleNoteBtn" type="submit" data-id={{_id}}>Write a note</button>
+                <button class="btn btn-info" id="articleNoteBtn" type="submit" data-id={{_id}} data-toggle="modal" data-target="#NoteModal">Write a note</button>
             </div>
         </div>
     {{/each}}
-    <div id="notes"></div>
-    <div id="message"></div>
 </div>
 
 <script type="text/javascript">
@@ -68,14 +95,27 @@ $(document).on("click", "#articleNoteBtn", function(){
             id: Articleid
         }
     }).done(function(data) {
-        console.log(data)
-      $("#notes").append("<h2>" + data.title + "</h2>");
-      $("#notes").append("<input id='titleinput' name='title' >");
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-      $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      console.log(data.note)
+      console.log(data.note.title)
+      console.log(data.note.body)
+
+      $("#modal-title").text(data.title)
+      $("#savenote").attr("data-id", data._id)
+
 
       if (data.note) {
-        $("#notes").append("<div><h3>" + data.note.title +  "</h3>" + "<p>" + data.note.body + "</p>" +  "</div>")
+        $("#modal-note-title").css("font-size", 25)
+        $("#modal-note-title").text(data.note.title)
+        $("#modal-note-body").css("font-size", 20)
+        $("#modal-note-body").text(data.note.body)
+      }
+      // TODO  also display this if data.note is an empty string
+      else if(!data.note){
+          console.log("note is not here")
+          $("#modal-note-title").css("font-size", 15)
+          $("#modal-note-title").text("No Title Found...")
+          $("#modal-note-body").css("font-size", 15)
+          $("#modal-note-body").text("No Note Body Found...")
       }
     });
 })

@@ -79,3 +79,17 @@ p{
     border-bottom-right-radius: 10px; 
 }
 
+/* Modal*/
+
+h4{
+    color: grey;
+}
+
+#titleinput {
+    padding: 5px 5px 5px 10px;
+    margin-bottom: 10px;
+}
+
+.modal-footer{
+   margin-right: 140px;
+}
