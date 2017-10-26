@@ -6,9 +6,11 @@ var request = require("request");
 
 // mongoose package and connection
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/newspaper', {
+mongoose.connect('mongodb://heroku_gcv4xdd5:dcg76l3mvos55psbfj33nms8qu@ds231725.mlab.com:31725/heroku_gcv4xdd5', {
     useMongoClient: true
 });
+//mongodb://localhost/newspaper
+
 mongoose.Promise = Promise;
 
 var db = mongoose.connection;
